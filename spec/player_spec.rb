@@ -28,15 +28,30 @@ describe Player do
       it 'returns valid input and does not display error message' do
         valid_input = '2'
         allow(player).to receive(:verify_input).and_return(valid_input)
-        expect(player.player_turn).to eq(valid_input)
+        expect(player).not_to receive(:puts).with('Input error!')
+        result = player.player_turn
+        expect(result).to(eq(valid_input))
       end
     end
     context 'when user inputs an incorrect value once, then a valid input' do
-      xit 'returns valid input and displays error message once' do
+      it 'returns valid input and displays error message once' do
+        invalid_input = '12'
+        valid_input = '2'
+        allow(player).to receive(:verify_input).and_return(invalid_input, valid_input)
+        expect(player).to receive(:puts).with('Input error!').once
+        result = player.player_turn
+        expect(result).to eq(valid_input)
       end
     end
     context 'when user inputs two incorrect values, then a valid input' do
-      xit 'returns valid input and displays error message twice' do
+      it 'returns valid input and displays error message twice' do
+        invalid_input = 'string'
+        invalid_number = '12'
+        valid_input = '2'
+        allow(player).to receive(:verify_input).and_return(invalid_input, invalid_number, valid_input)
+        expect(player).to receive(:puts).with('Input error!').twice
+        result = player.player_turn
+        expect(result).to eq(valid_input)
       end
     end
   end
