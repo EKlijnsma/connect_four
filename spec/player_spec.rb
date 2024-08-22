@@ -8,16 +8,30 @@ describe Player do
   subject(:player) { described_class.new }
 
   describe '#verify_input' do
-    context 'when given a valid input as argument' do
+    context 'when given 0 input as argument' do
       it 'returns valid input' do
-        user_input = '2'
-        expect(player.verify_input(user_input)).to eq('2')
+        user_input = '0'
+        expect(player.verify_input(user_input)).to eq(user_input)
       end
     end
 
-    context 'when given invalid input as argument' do
+    context 'when given 6 input as argument' do
+      it 'returns valid input' do
+        user_input = '6'
+        expect(player.verify_input(user_input)).to eq(user_input)
+      end
+    end
+
+    context 'when given an invalid number input as argument' do
       it 'returns nil' do
-        user_input = '12'
+        user_input = '7'
+        expect(player.verify_input(user_input)).to be_nil
+      end
+    end
+
+    context 'when given a word input as argument' do
+      it 'returns nil' do
+        user_input = 'string'
         expect(player.verify_input(user_input)).to be_nil
       end
     end

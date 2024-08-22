@@ -7,7 +7,7 @@ class Player
   end
 
   def verify_input(input)
-    input if input.match?(/^[0-7]$/)
+    input if input.match?(/^[0-6]$/)
   end
 
   def player_turn
