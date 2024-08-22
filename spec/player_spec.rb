@@ -27,6 +27,7 @@ describe Player do
     context 'when user input is valid' do
       it 'returns valid input and does not display error message' do
         valid_input = '2'
+        allow(player).to receive(:player_input).and_return(valid_input)
         allow(player).to receive(:verify_input).and_return(valid_input)
         expect(player).not_to receive(:puts).with('Input error!')
         result = player.player_turn
@@ -37,7 +38,8 @@ describe Player do
       it 'returns valid input and displays error message once' do
         invalid_input = '12'
         valid_input = '2'
-        allow(player).to receive(:verify_input).and_return(invalid_input, valid_input)
+        allow(player).to receive(:player_input).and_return(invalid_input, valid_input)
+        allow(player).to receive(:verify_input).and_return(nil, valid_input)
         expect(player).to receive(:puts).with('Input error!').once
         result = player.player_turn
         expect(result).to eq(valid_input)
@@ -48,7 +50,8 @@ describe Player do
         invalid_input = 'string'
         invalid_number = '12'
         valid_input = '2'
-        allow(player).to receive(:verify_input).and_return(invalid_input, invalid_number, valid_input)
+        allow(player).to receive(:player_input).and_return(invalid_input, invalid_number, valid_input)
+        allow(player).to receive(:verify_input).and_return(nil, nil, valid_input)
         expect(player).to receive(:puts).with('Input error!').twice
         result = player.player_turn
         expect(result).to eq(valid_input)
@@ -56,3 +59,5 @@ describe Player do
     end
   end
 end
+
+# rubocop:enable Metrics/BlockLength
