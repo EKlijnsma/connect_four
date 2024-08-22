@@ -25,7 +25,10 @@ describe Player do
 
   describe '#player_turn' do
     context 'when user input is valid' do
-      xit 'returns valid input and does not display error message' do
+      it 'returns valid input and does not display error message' do
+        valid_input = '2'
+        allow(player).to receive(:verify_input).and_return(valid_input)
+        expect(player.player_turn).to eq(valid_input)
       end
     end
     context 'when user inputs an incorrect value once, then a valid input' do
