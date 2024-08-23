@@ -28,6 +28,35 @@ describe Cage do
     end
   end
 
+  describe '#full_column?' do
+    it 'returns true when the column is full' do
+    end
+
+    it 'returns false when column is partially filled' do
+    end
+
+    it 'returns false when column is empty' do
+    end
+  end
+
+  describe '#place_token' do
+    context 'when given a valid column' do
+      it 'places a token correctly in an empty column' do
+      end
+
+      it 'places a token correctly in a non-empty column' do
+      end
+    end
+
+    context 'when given an invalid column' do
+      it 'raises an error when the column number is incorrect' do
+      end
+
+      it 'raises an error when the given column is full' do
+      end
+    end
+  end
+
   describe '#vertical_win?' do
     context 'when the cage is empty' do
       it 'does not detect a win' do
@@ -135,6 +164,17 @@ describe Cage do
         allow(cage).to receive(:diagonal_win?).and_return(true)
         expect(cage).to be_winner
       end
+    end
+  end
+
+  describe '#full_board?' do
+    it 'returns true when the board is full' do
+    end
+
+    it 'returns false when board is partially filled' do
+    end
+
+    it 'returns false when board is empty' do
     end
   end
 end
