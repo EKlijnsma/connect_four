@@ -39,17 +39,13 @@ class Cage
     # Check for bottom-left to top-right diagonals (/)
     # which can start in columns 0 to 3 and rows 0 to 2
     (0..3).each do |col|
-      (0..2).each do |row|
-        return true if check_diagonal(col, row, 1, 1)
-      end
+      (0..2).each { |row| return true if check_diagonal(col, row, 1, 1) }
     end
 
     # Check for bottom-right to top-left diagonals (\)
     # which can start in columns 3 to 6 and rows 0 to 2
     (3..6).each do |col|
-      (0..2).each do |row|
-        return true if check_diagonal(col, row, -1, 1)
-      end
+      (0..2).each { |row| return true if check_diagonal(col, row, -1, 1) }
     end
     false
   end
