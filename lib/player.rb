@@ -1,7 +1,6 @@
-class Player
-  def initialize
-  end
+# frozen_string_literal: true
 
+class Player
   def player_input
     gets.chomp
   end
