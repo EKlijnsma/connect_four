@@ -64,8 +64,14 @@ describe Cage do
         expect(cage).not_to be_diagonal_win
       end
 
-      it 'correctly detects a diagonal win' do
+      it 'correctly detects a "/" diagonal win' do
         4.times { |i| grid[i][i] = 'X' }
+        cage.state = grid
+        expect(cage).to be_diagonal_win
+      end
+
+      it 'correctly detects a "\" diagonal win' do
+        4.times { |i| grid[i][3 - i] = 'X' }
         cage.state = grid
         expect(cage).to be_diagonal_win
       end
@@ -96,22 +102,38 @@ describe Cage do
 
   describe '#winner?' do
     context 'when no win' do
-      xit 'detects no win' do
+      it 'detects no win' do
+        allow(cage).to receive(:horizontal_win?).and_return(false)
+        allow(cage).to receive(:vertical_win?).and_return(false)
+        allow(cage).to receive(:diagonal_win?).and_return(false)
+        expect(cage).not_to be_winner
       end
     end
 
     context 'when horizontal win' do
-      xit 'detects a win' do
+      it 'detects a win' do
+        allow(cage).to receive(:horizontal_win?).and_return(true)
+        allow(cage).to receive(:vertical_win?).and_return(false)
+        allow(cage).to receive(:diagonal_win?).and_return(false)
+        expect(cage).to be_winner
       end
     end
 
     context 'when vertical win' do
-      xit 'detects a win' do
+      it 'detects a win' do
+        allow(cage).to receive(:horizontal_win?).and_return(false)
+        allow(cage).to receive(:vertical_win?).and_return(true)
+        allow(cage).to receive(:diagonal_win?).and_return(false)
+        expect(cage).to be_winner
       end
     end
 
     context 'when diagonal win' do
-      xit 'detects a win' do
+      it 'detects a win' do
+        allow(cage).to receive(:horizontal_win?).and_return(false)
+        allow(cage).to receive(:vertical_win?).and_return(false)
+        allow(cage).to receive(:diagonal_win?).and_return(true)
+        expect(cage).to be_winner
       end
     end
   end
