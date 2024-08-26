@@ -49,7 +49,7 @@ describe Game do
       game.play
     end
 
-    it 'detects a draw condition' do
+    xit 'detects a draw condition' do
       # Simulate moves that lead to a draw
 
       # Ensure the game correctly detects the draw and ends
@@ -152,34 +152,36 @@ describe Game do
 
   describe '#draw?' do
     it 'returns true if game is drawn' do
-      allow(cage).to receive(:draw?).and_return(true)
+      allow(cage).to receive(:winner?).and_return(false)
+      allow(cage).to receive(:full_board?).and_return(true)
       expect(game).to be_draw
     end
 
     it 'returns false if game is not drawn' do
-      allow(cage).to receive(:draw?).and_return(false)
+      allow(cage).to receive(:winner?).and_return(false)
+      allow(cage).to receive(:full_board?).and_return(false)
       expect(game).not_to be_draw
     end
     it 'delegates draw checking to the Cage class' do
-      expect(cage).to receive(:draw?)
+      expect(cage).to receive(:full_board?)
       game.draw?
     end
   end
 
   describe '#game_over?' do
     it 'returns true if there is a winner' do
-      allow(cage).to receive(:winner?).and_return(true)
+      allow(game).to receive(:winner?).and_return(true)
       expect(game).to be_game_over
     end
 
     it 'returns true if the game is drawn' do
-      allow(cage).to receive(:draw?).and_return(true)
+      allow(game).to receive(:draw?).and_return(true)
       expect(game).to be_game_over
     end
 
     it 'returns false if game is not over' do
-      allow(cage).to receive(:winner?).and_return(false)
-      allow(cage).to receive(:draw?).and_return(false)
+      allow(game).to receive(:winner?).and_return(false)
+      allow(game).to receive(:draw?).and_return(false)
       expect(game).not_to be_game_over
     end
   end

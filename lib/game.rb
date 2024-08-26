@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'invalid_move_error'
+
 class Game
   attr_accessor :cage, :player1, :player2, :current_player
 
@@ -11,18 +13,35 @@ class Game
   end
 
   def make_move(col)
-    column = cage.state[col]
-    column.each do |row|
-      next unless row.nil?
+    raise InvalidMoveError if col.class != Integer
 
-      cage.update(col, row, current_player.symbol)
-      switch_players
-      break
-    end
-    raise 'Column is full'
+    cage.update_state(col, current_player.symbol)
+    switch_turns
   end
 
-  def switch_players
-    # TODO
+  def play
+    while true
+      col = current_player.get_move
+      make_move(col)
+      break if game_over?
+
+      switch_turns
+    end
+  end
+
+  def switch_turns
+    @current_player = (current_player == player1 ? player2 : player1)
+  end
+
+  def winner?
+    cage.winner?
+  end
+
+  def draw?
+    cage.full_board? && !cage.winner?
+  end
+
+  def game_over?
+    winner? || draw?
   end
 end
