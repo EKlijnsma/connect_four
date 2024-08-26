@@ -28,16 +28,28 @@ describe Player do
 
   describe '#get_move' do
     it 'prompts for user input' do
+      allow(player).to receive(:get_input).and_return('2')
       expect(player).to receive(:get_input)
+      player.get_move
     end
 
     it 'verifies the user input' do
+      allow(player).to receive(:get_input).and_return('2')
+      allow(player).to receive(:verify_input).and_return(true)
       expect(player).to receive(:verify_input)
+      player.get_move
+    end
+
+    it 'loops 3 times when given invalid user input' do
+      allow(player).to receive(:get_input).and_return('7', 'string', '2')
+      allow(player).to receive(:verify_input).and_return(false, false, true)
+      expect(player).to receive(:get_input).exactly(3).times
+      player.get_move
     end
 
     it 'returns valid user input' do
       allow(player).to receive(:get_input).and_return('2')
-      allow(player).to receive(:verify_input).and_return(2)
+      allow(player).to receive(:verify_input).and_return(true)
       expect(player.get_move).to eq(2)
     end
   end
