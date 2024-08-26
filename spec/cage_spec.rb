@@ -30,30 +30,17 @@ describe Cage do
 
   describe '#full_column?' do
     it 'returns true when the column is full' do
+      cage.state[0] = %w[X X O O X X]
+      expect(cage.full_column?(0)).to be true
     end
 
     it 'returns false when column is partially filled' do
+      cage.state[1] = ['X', 'X', 'O', 'O', nil, nil]
+      expect(cage.full_column?(1)).to be false
     end
 
     it 'returns false when column is empty' do
-    end
-  end
-
-  describe '#place_token' do
-    context 'when given a valid column' do
-      it 'places a token correctly in an empty column' do
-      end
-
-      it 'places a token correctly in a non-empty column' do
-      end
-    end
-
-    context 'when given an invalid column' do
-      it 'raises an error when the column number is incorrect' do
-      end
-
-      it 'raises an error when the given column is full' do
-      end
+      excpect(cage.full_column?(2)).to be false
     end
   end
 
@@ -104,6 +91,34 @@ describe Cage do
         cage.state = grid
         expect(cage).to be_diagonal_win
       end
+    end
+  end
+
+  describe '#update_state' do
+    it 'places the correct symbol' do
+      cage.update_state(0, 'X')
+      expect(cage.state[0][0]).to eq('X')
+    end
+
+    it 'correctly updates an empty column' do
+      cage.update_state(5, 'X')
+      expect(cage.state[5][0]).to eq('X')
+    end
+
+    it 'correctly updates a partially filled column' do
+      3.times { cage.update_state(3, 'O') }
+      cage.update_state(3, 'X')
+      expect(cage.state[3][3]).to eq('X')
+    end
+
+    it 'raises an error when the column is full' do
+      3.times { cage.update_state(3, 'O') }
+      3.times { cage.update_state(3, 'X') }
+      expect { cage.update_state(3, 'X') }.to raise_error(InvalidMoveError)
+    end
+
+    it 'raises an error when the column index is out of range' do
+      expect { cage.update_state(8, 'X') }.to raise_error(InvalidMoveError)
     end
   end
 
@@ -169,12 +184,21 @@ describe Cage do
 
   describe '#full_board?' do
     it 'returns true when the board is full' do
+      (0..6).each do |i|
+        cage.state[i] = (i == 3 ? %w[O O X X O O] : %w[X X O O X X])
+      end
+      expect(cage).to be_full_board
     end
 
     it 'returns false when board is partially filled' do
+      (0..6).each do |i|
+        cage.state[i] = (i == 3 ? ['O', 'O', 'X', 'X', 'O', nil] : %w[X X O O X X])
+      end
+      expect(cage).not_to be_full_board
     end
 
     it 'returns false when board is empty' do
+      expect(cage).not_to be_full_board
     end
   end
 end
