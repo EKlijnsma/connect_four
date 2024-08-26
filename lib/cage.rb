@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'invalid_move_error'
+
 class Cage
   attr_accessor :state
 
@@ -61,5 +63,25 @@ class Cage
 
   def winner?
     vertical_win? || horizontal_win? || diagonal_win?
+  end
+
+  def full_column?(col)
+    !state[col][-1].nil?
+  end
+
+  def update_state(col, symbol)
+    raise InvalidMoveError unless col.between?(0, 5)
+
+    (0..5).each do |row|
+      if state[col][row].nil?
+        state[col][row] = symbol
+        return state
+      end
+    end
+    raise InvalidMoveError
+  end
+
+  def full_board?
+    !state.flatten.include?(nil)
   end
 end

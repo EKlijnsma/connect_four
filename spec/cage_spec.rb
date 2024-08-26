@@ -40,7 +40,7 @@ describe Cage do
     end
 
     it 'returns false when column is empty' do
-      excpect(cage.full_column?(2)).to be false
+      expect(cage.full_column?(2)).to be false
     end
   end
 
