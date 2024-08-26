@@ -12,6 +12,20 @@ describe Player do
     end
   end
 
+  describe '#verify_input' do
+    it 'returns true for valid numbers' do
+      expect(player.verify_input('0')).to be true
+    end
+
+    it 'returns false for invalid numbers' do
+      expect(player.verify_input('9')).to be false
+    end
+
+    it 'returns false for string inputs' do
+      expect(player.verify_input('string')).to be false
+    end
+  end
+
   describe '#get_move' do
     it 'prompts for user input' do
       expect(player).to receive(:get_input)
