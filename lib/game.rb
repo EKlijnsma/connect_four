@@ -54,17 +54,32 @@ class Game
   end
 
   def welcome
-    puts 'WELCOME TO CONNECT FOUR!'
-    puts "It's player 1 with the #{player1.symbol} tokens vs player 2 with the #{player2.symbol} tokens"
-    puts 'Use the numbers above each column to enter your move'
-    puts "Let's start...."
+    puts "\n====WELCOME TO CONNECT FOUR!====\n"
+    sleep(1)
+    puts "In this game it's #{player1.symbol} vs #{player2.symbol}!"
+    sleep(2)
+    puts "\nYou each take turns placing your token in the cage below.\nUse the numbers above each column to enter your move."
+    sleep(4)
+    print "Let's start in "
+    countdown
+  end
+
+  def countdown(start = 3, delay = 0.5)
+    start.downto(1) do |i|
+      print "#{i}"
+      3.times do
+        print '.'
+        sleep(delay)
+      end
+      sleep(delay)
+    end
   end
 
   def announce_draw
-    puts "Well played on both sides. The game ended in a draw!\nSee you next time, goodbye!"
+    puts "\nWell played on both sides. The game ended in a draw!\nSee you next time, goodbye!"
   end
 
   def announce_winner
-    puts "Good game!. There are four #{current_player.symbol} tokens connected.\nYOU WON!!\nSee you next time, goodbye!"
+    puts "\nGood game -> #{current_player.symbol * 4}.\nYOU WON!!\nSee you next time, goodbye!\n\n"
   end
 end

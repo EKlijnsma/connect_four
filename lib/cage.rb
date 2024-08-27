@@ -104,7 +104,13 @@ class Cage
     puts '  ⇓  ' * 7
   end
 
+  def clear_screen
+    # ANSI escape code to move the cursor up
+    puts `clear`
+  end
+
   def print_board(board = state)
+    clear_screen
     print_column_picker
     print_bar
     board.transpose.reverse.each do |row|
