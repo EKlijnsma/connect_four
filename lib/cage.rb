@@ -72,7 +72,7 @@ class Cage
   def update_state(col, symbol)
     raise InvalidMoveError unless col.between?(0, 6)
 
-    (0..6).each do |row|
+    (0..5).each do |row|
       if state[col][row].nil?
         state[col][row] = symbol
         return state

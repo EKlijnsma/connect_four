@@ -23,7 +23,12 @@ class Game
     cage.print_board
     loop do
       col = current_player.get_move
-      make_move(col)
+      begin
+        make_move(col)
+      rescue InvalidMoveError
+        puts 'Invalid move'
+        next
+      end
       cage.print_board
       break if game_over?
 

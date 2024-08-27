@@ -28,64 +28,57 @@ describe Game do
   end
 
   describe '#play' do
-    xit 'starts the game loop' do
-      allow(game).to receive(:game_over?).and_return(false, true)
+    before do
+      allow(cage).to receive(:puts)
+      allow(game).to receive(:puts)
+    end
+
+    it 'starts the game loop' do
       # Mock or stub methods if necessary
+      allow(player1).to receive(:get_input).and_return('0')
+      allow(player2).to receive(:get_input).and_return('0')
+      allow(game).to receive(:game_over?).and_return(true)
+
       expect(game).to receive(:make_move)
-      expect(game).to receive(:game_over?)
-      expect(game).to receive(:switch_turns)
       # Ensure the game loop initializes and runs
       game.play
     end
 
-    xit 'detects a win condition' do
-    end
+    it 'detects a win condition' do
+      allow(player1).to receive(:get_move).and_return(0, 0, 0, 0)
+      allow(player2).to receive(:get_move).and_return(1, 1, 1, 1)
 
-    xit 'detects a draw condition' do
-      # Simulate moves that lead to a draw
+      expect(game).to receive(:announce_winner)
 
-      # Ensure the game correctly detects the draw and ends
-    end
-
-    xit 'ends the game when game is won' do
-      # Simulate a win or draw and ensure the game ends
-      allow(game).to receive(:make_move).and_return(nil)
-      allow(game).to receive(:winner?).and_return(true)
-      allow(game).to receive(:draw?).and_return(false)
-
-      expect(game).to receive(:game_over?).and_return(true)
-      # Ensure the game loop initializes and runs
       game.play
     end
 
-    xit 'ends the game when game is drawn' do
-      # Simulate a win or draw and ensure the game ends
-      allow(game).to receive(:make_move).and_return(nil)
-      allow(game).to receive(:winner?).and_return(false)
-      allow(game).to receive(:draw?).and_return(true)
+    it 'detects a draw condition' do
+      allow(player1).to receive(:get_move).and_return(0, 0, 0, 1, 1, 1, 2, 2, 2, 6, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6)
+      allow(player2).to receive(:get_move).and_return(0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6)
 
-      expect(game).to receive(:game_over?).and_return(true)
-      # Ensure the game loop initializes and runs
+      expect(game).to receive(:announce_draw)
+
       game.play
     end
 
-    xit 'switches turns after a move when the game is not over' do
-      # Simulate moves and verify turns are switched correctly
-      allow(game).to receive(:make_move).and_return(nil)
-      allow(game).to receive(:winner?).and_return(false)
-      allow(game).to receive(:draw?).and_return(false)
+    it 'switches turns after a move when the game is not over' do
+      allow(player1).to receive(:get_move).and_return(0)
+      allow(player2).to receive(:get_move).and_return(0)
+      allow(game).to receive(:game_over?).and_return(false, true)
 
-      expect(game).to receive(:switch_turns)
+      expect(game).to receive(:switch_turns).once
+
       game.play
     end
 
-    xit 'does not switch turns after a move when the game is over' do
-      # Simulate a game-ending condition and ensure turns are not switched
-      allow(game).to receive(:make_move).and_return(nil)
-      allow(game).to receive(:winner?).and_return(true)
-      allow(game).to receive(:draw?).and_return(false)
+    it 'does not switch turns after a move when the game is over' do
+      allow(player1).to receive(:get_move).and_return(0)
+      allow(player2).to receive(:get_move).and_return(0)
+      allow(game).to receive(:game_over?).and_return(true)
 
       expect(game).not_to receive(:switch_turns)
+
       game.play
     end
   end
