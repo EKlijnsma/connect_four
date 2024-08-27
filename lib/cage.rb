@@ -70,9 +70,9 @@ class Cage
   end
 
   def update_state(col, symbol)
-    raise InvalidMoveError unless col.between?(0, 5)
+    raise InvalidMoveError unless col.between?(0, 6)
 
-    (0..5).each do |row|
+    (0..6).each do |row|
       if state[col][row].nil?
         state[col][row] = symbol
         return state
@@ -83,5 +83,33 @@ class Cage
 
   def full_board?
     !state.flatten.include?(nil)
+  end
+
+  def print_row(row)
+    string = '|'
+    row.each do |token|
+      string += token.nil? ? '    |' : " #{token} |"
+    end
+    puts string
+  end
+
+  def print_bar
+    puts '=' * 36
+  end
+
+  def print_column_picker
+    string = ''
+    (0..6).each { |i| string += "  #{i}  " }
+    puts string
+    puts '  ⇓  ' * 7
+  end
+
+  def print_board(board = state)
+    print_column_picker
+    print_bar
+    board.transpose.reverse.each do |row|
+      print_row(row)
+      print_bar
+    end
   end
 end

@@ -17,7 +17,7 @@ class Player
   end
 
   def get_input
-    puts 'Enter your move:'
+    puts "Enter a column number to put your #{symbol} token:"
     gets.chomp
   end
 
